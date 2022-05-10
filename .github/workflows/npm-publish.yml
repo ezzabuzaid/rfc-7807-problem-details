@@ -28,7 +28,10 @@ jobs:
       - run: npm install
 
       - name: Set npm NPM_TOKEN
-        run: npm config set //registry.npmjs.org/:_authToken ${{secrets.NPM_TOKEN}}
+        uses: raver119/set-npm-token-action@v1.5
+        with:
+          # your npm token
+          token: ${{secrets.NPM_TOKEN}}
 
       - run: npm run release
         env:

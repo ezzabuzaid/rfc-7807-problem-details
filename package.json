@@ -1,7 +1,7 @@
 {
 	"name": "rfc-7807-problem-details",
-	"version": "0.0.1",
-	"description": "Lightweight dependency injection library for TypeScript applications",
+	"version": "0.0.2",
+	"description": "Typescript implementation of rfc 7807",
 	"main": "index",
 	"scripts": {
 		"test": "jest --runInBand --detectOpenHandles --no-cache",
@@ -14,7 +14,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/ezzabuzaid/tiny-injector.git"
+		"url": "git+https://github.com/ezzabuzaid/rfc-7807-problem-details.git"
 	},
 	"husky": {
 		"hooks": {
@@ -24,10 +24,16 @@
 	"author": "ezzabuzaid",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/ezzabuzaid/problem-details/issues"
+		"url": "https://github.com/ezzabuzaid/rfc-7807-problem-details/issues"
 	},
-	"homepage": "https://github.com/ezzabuzaid/problem-details#readme",
-	"keywords": [],
+	"homepage": "https://github.com/ezzabuzaid/rfc-7807-problem-details#readme",
+	"keywords": [
+		"rfc-7807",
+		"problem details",
+		"node.js problem-details",
+		"nodejs problem-details",
+		"rfc-7807-problem-details"
+	],
 	"private": false,
 	"release-it": {
 		"plugins": {

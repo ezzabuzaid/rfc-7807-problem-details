@@ -38,7 +38,7 @@
 		},
 		"git": {
 			"requireBranch": "main",
-			"requireCleanWorkingDir": true,
+			"requireCleanWorkingDir": false,
 			"requireCommits": true,
 			"requireUpstream": true,
 			"tag": true

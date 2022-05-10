@@ -1,0 +1,72 @@
+{
+	"name": "rfc-7807-problem-details",
+	"version": "0.0.1",
+	"description": "Lightweight dependency injection library for TypeScript applications",
+	"main": "index",
+	"scripts": {
+		"test": "jest --runInBand --detectOpenHandles --no-cache",
+		"test:majestic": "majestic",
+		"build:watch": "tsc  --project tsconfig.json --watch",
+		"build": "tsc --project tsconfig.json",
+		"prebuild": "del-cli ./dist/",
+		"postbuild": "cpy 'README.md' 'package.json' 'package-lock.json' dist --no-overwrite",
+		"release": "release-it"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ezzabuzaid/tiny-injector.git"
+	},
+	"husky": {
+		"hooks": {
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+		}
+	},
+	"author": "ezzabuzaid",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ezzabuzaid/problem-details/issues"
+	},
+	"homepage": "https://github.com/ezzabuzaid/problem-details#readme",
+	"keywords": [],
+	"private": false,
+	"release-it": {
+		"plugins": {
+			"@release-it/conventional-changelog": {
+				"preset": "conventionalcommits",
+				"infile": "CHANGELOG.md"
+			}
+		},
+		"git": {
+			"requireBranch": "main",
+			"requireCleanWorkingDir": true,
+			"requireCommits": true,
+			"requireUpstream": true,
+			"tag": true
+		},
+		"github": {
+			"release": true
+		},
+		"npm": {
+			"publish": true,
+			"publishPath": "./dist"
+		},
+		"hooks": {
+			"after:bump": "npm run build",
+			"after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+		}
+	},
+	"peerDependencies": {
+		"http-status-codes": "^2.2.0"
+	},
+	"dependencies": {
+		"typescript": "^4.6.4"
+	},
+	"devDependencies": {
+		"@release-it/conventional-changelog": "^4.1.0",
+		"@types/express": "^4.17.13",
+		"@types/node": "^17.0.31",
+		"cpy-cli": "^4.1.0",
+		"del-cli": "^4.0.1",
+		"release-it": "^14.12.1"
+	}
+}

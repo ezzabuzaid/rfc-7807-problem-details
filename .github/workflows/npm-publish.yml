@@ -17,10 +17,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: git config
-        run: |
-          git config user.name "${GITHUB_ACTOR}"
-
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -30,7 +26,6 @@ jobs:
       - name: Set npm NPM_TOKEN
         uses: raver119/set-npm-token-action@v1.5
         with:
-          # your npm token
           token: ${{secrets.NPM_TOKEN}}
 
       - run: npm run release

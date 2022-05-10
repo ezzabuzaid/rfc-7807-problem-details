@@ -17,6 +17,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: git config
+        run: |
+          git config user.name "ezzabuzaid"
+
       - uses: actions/setup-node@v3
         with:
           node-version: 16

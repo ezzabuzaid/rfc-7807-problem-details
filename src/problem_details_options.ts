@@ -70,7 +70,7 @@ export class ProblemDetailsOptions {
 				if (statusCode) {
 					context.response.statusCode = statusCode;
 				} else {
-					// FIXME: should it delegate to routing framework error handler
+					// FIXME: should it delegate to routing framework error handler? or just set the status code to 500
 				}
 				return this.mapStatusCode(context.request, context.response);
 			})()

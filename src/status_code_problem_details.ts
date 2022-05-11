@@ -1,13 +1,14 @@
 import { getReasonPhrase } from "http-status-codes";
 import { ProblemDetails } from "./problem_details";
 
-export function createStatusCodeProblem(statusCode: number, title?: string) {
+export function createStatusCodeProblem(
+	statusCode: number,
+	title?: string,
+	type?: string
+) {
 	return new ProblemDetails(
-		getDefaultType(statusCode),
+		type,
 		title ?? getReasonPhrase(statusCode),
 		!title ? statusCode : undefined
 	);
-}
-export function getDefaultType(statusCode: number) {
-	return `https://httpstatuses.io/${statusCode}`;
 }

@@ -26,7 +26,7 @@
 	"bugs": {
 		"url": "https://github.com/ezzabuzaid/rfc-7807-problem-details/issues"
 	},
-	"homepage": "https://github.com/ezzabuzaid/rfc-7807-problem-details#readme",
+	"homepage": "https://github.com/ezzabuzaid/rfc-7807-problem-details",
 	"keywords": [
 		"rfc-7807",
 		"problem details",
@@ -53,7 +53,7 @@
 			"release": true
 		},
 		"npm": {
-			"publish": false,
+			"publish": true,
 			"publishPath": "./dist"
 		},
 		"hooks": {

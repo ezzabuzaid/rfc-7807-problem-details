@@ -9,9 +9,8 @@ export function problemDetailsMiddleware(
 	const options = new ProblemDetailsOptions();
 	configure(options);
 
-	// TODO: include exception details
 	options.includeExceptionDetails ??= () =>
-		process.env.NODE_ENV === "development";
+		(process.env.NODE_ENV || "development") === "development";
 
 	options.exceptionDetailsPropertyName ||=
 		ProblemDetailsOptions.DefaultExceptionDetailsPropertyName;
@@ -65,6 +64,15 @@ export function problemDetailsMiddleware(
 					error
 				);
 			}
+
+			if (options.includeExceptionDetails()) {
+				const stack =
+					error instanceof Error ? error.stack : Error.captureStackTrace(error);
+				problem[options.exceptionDetailsPropertyName] = stack
+					?.split("\n")
+					.map((line) => line.trim());
+			}
+
 			res
 				.setHeader("content-type", options.contentTypes)
 				.status(problem.status)

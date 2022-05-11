@@ -13,7 +13,7 @@ export class ProblemDetailsOptions {
 		(request: Request, response: Response, error: any) => ProblemDetails
 	>();
 
-	public includeExceptionDetails?: () => boolean;
+	public includeExceptionDetails!: () => boolean;
 	public isProblem!: (response: Response) => boolean;
 	public appendCacheHeaders!: (req: Request, res: Response) => void;
 	public mapStatusCode!: (req: Request, res: Response) => ProblemDetails;
@@ -59,9 +59,21 @@ export class ProblemDetailsOptions {
 		error: TError
 	) {
 		const mapping = this.mappings.get(error.constructor as Type<TError>);
+		// FIXME: should mapStatusCode exist at all? if there is no mapping for specific error then the default error
+		// handler should take control
 		return (
 			mapping?.(context.request, context.response, error) ??
-			this.mapStatusCode(context.request, context.response)
+			(() => {
+				// respect error.statusCode and error.status
+				// a lot of 3rd libarires set status or statusCode on error object
+				const statusCode = (error as any).statusCode || (error as any).status;
+				if (statusCode) {
+					context.response.statusCode = statusCode;
+				} else {
+					// FIXME: should it delegate to routing framework error handler
+				}
+				return this.mapStatusCode(context.request, context.response);
+			})()
 		);
 	}
 	public rethrow() {}

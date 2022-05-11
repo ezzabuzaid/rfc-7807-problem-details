@@ -1,12 +1,9 @@
 import type { Request, Response } from "express";
-import { getReasonPhrase } from "http-status-codes";
 import { ProblemDetails } from "./problem_details";
 type Type<T> = new (...args: any) => T;
 export class ProblemDetailsOptions {
 	public static DefaultExceptionDetailsPropertyName =
 		"exceptionDetails" as const;
-	// static to be used without injection the options class
-	public static TypePrefix: string;
 
 	private mappings = new Map<
 		Type<Error>,
@@ -28,7 +25,6 @@ export class ProblemDetailsOptions {
 			(request, response, errorInstance: InstanceType<TError>) => {
 				if (predicate(errorInstance)) {
 					const details = mapping(errorInstance);
-					details.instance = request.url;
 					return details;
 				}
 				return this.mapStatusCode(request, response);
@@ -44,9 +40,10 @@ export class ProblemDetailsOptions {
 			error,
 			(errorInstance) => true,
 			(errorInstance) => {
+				const title = undefined; // will be set to status code text in the middleware
 				return new ProblemDetails(
-					`${ProblemDetailsOptions.TypePrefix}/${statusCode}`,
-					getReasonPhrase(statusCode),
+					`${statusCode}`,
+					title,
 					statusCode,
 					errorInstance.message ?? undefined
 				);

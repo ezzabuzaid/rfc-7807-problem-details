@@ -15,8 +15,7 @@ export function problemDetailsMiddleware(
 	options.exceptionDetailsPropertyName ||=
 		ProblemDetailsOptions.DefaultExceptionDetailsPropertyName;
 
-	ProblemDetailsOptions.TypePrefix =
-		options.typePrefix ?? `https://httpstatuses.io`;
+	options.typePrefix ??= `https://httpstatuses.io`;
 
 	if (options.contentTypes.length === 0) {
 		options.contentTypes = ["application/problem+json"];
@@ -30,9 +29,10 @@ export function problemDetailsMiddleware(
 	};
 
 	options.mapStatusCode ??= (req, res) => {
+		const title = undefined; // will be set to status code text in the middleware
 		const problem = new ProblemDetails(
-			`${ProblemDetailsOptions.TypePrefix}/${res.statusCode}`,
-			getReasonPhrase(res.statusCode),
+			`${res.statusCode}`,
+			title,
 			res.statusCode
 		);
 		return problem;
@@ -64,6 +64,20 @@ export function problemDetailsMiddleware(
 					error
 				);
 			}
+
+			// Set problem details type to "about:blank" if not present
+			if (problem.type) {
+				problem.type = `${options.typePrefix}/${problem.type}`;
+			} else {
+				problem.type = "about:blank";
+			}
+
+			// Set problem details title to status code text if title is not present
+			if (!problem.title && problem.status) {
+				problem.title = getReasonPhrase(problem.status);
+			}
+
+			problem.instance = req.url;
 
 			if (options.includeExceptionDetails()) {
 				const stack =

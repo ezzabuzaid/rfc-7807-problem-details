@@ -1,5 +1,12 @@
 
 
+### [0.2.1](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/0.2.0...0.2.1) (2022-05-11)
+
+
+### Bug Fixes
+
+* set type to about:blank if not present ([2496d8c](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/2496d8cbed13309074f7d4e08f99507a1f37fa40))
+
 ## 0.2.0 (2022-05-11)
 
 

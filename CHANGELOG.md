@@ -1,5 +1,12 @@
 
 
+### [0.2.2](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/0.2.1...0.2.2) (2022-05-12)
+
+
+### Bug Fixes
+
+* ignore prefixing type if it starts with http or https ([1b4c63a](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/1b4c63a356970cacfd9f89f69ced34d3d27fce5b))
+
 ### [0.2.1](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/0.2.0...0.2.1) (2022-05-11)
 
 

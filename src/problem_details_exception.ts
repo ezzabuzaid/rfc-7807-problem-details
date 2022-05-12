@@ -14,4 +14,12 @@ export class ProblemDetailsException extends Error {
 				  )
 				: problemDetails;
 	}
+
+	// public static fromError(
+	// 	error: ProblemDetails & { message?: string; statusCode: number }
+	// ) {
+	// 	error.title ||= error.message;
+	// 	error.status ||= error.statusCode;
+	// 	return new ProblemDetailsException(error);
+	// }
 }

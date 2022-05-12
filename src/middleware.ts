@@ -46,10 +46,6 @@ export function problemDetailsMiddleware(
 		return true;
 	};
 
-	// FIXME: the developer needs to throw an error in order to be captured in expressjs error middleware
-	// if the developer want to return e.g. bad request using "return" statement then we need to
-	// check in normal middlware if the response object have error status code
-
 	// FIXME: in koajs, the error handler middleware act just like .net middleware so different export needed
 	return (error: any, req: any, res: any, next: any) => {
 		if (res.headersSent) {
@@ -65,23 +61,29 @@ export function problemDetailsMiddleware(
 				);
 			}
 
-			// Set problem details type to "about:blank" if not present
-			if (problem.type) {
-				problem.type = `${options.typePrefix}/${problem.type}`;
-			} else {
+			if (!problem.type) {
+				// Set problem details type to "about:blank" if not present
 				problem.type = "about:blank";
+			} else if (!/^((http|https):\/\/)/.test(problem.type)) {
+				problem.type = `${options.typePrefix}/${problem.type}`;
+				// If it doesn't start with valid https or http then use typePrefix
 			}
+			// if it's url that means the developer did this intentionally.
 
 			// Set problem details title to status code text if title is not present
 			if (!problem.title && problem.status) {
 				problem.title = getReasonPhrase(problem.status);
 			}
 
+			// Set instance to the request url
 			problem.instance = req.url;
 
 			if (options.includeExceptionDetails()) {
-				const stack =
-					error instanceof Error ? error.stack : Error.captureStackTrace(error);
+				if (!(error instanceof Error)) {
+					Error.captureStackTrace(error);
+				}
+				const stack: string | undefined = error.stack;
+
 				problem[options.exceptionDetailsPropertyName] = stack
 					?.split("\n")
 					.map((line) => line.trim());

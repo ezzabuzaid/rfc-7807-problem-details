@@ -5,14 +5,16 @@ export class ProblemDetailsException extends Error {
 	constructor(details: ProblemDetails);
 	constructor(problemDetails: ProblemDetails) {
 		super(problemDetails.title);
-		this.Details =
-			problemDetails.constructor !== ProblemDetails
-				? new ProblemDetails(
-						problemDetails.type,
-						problemDetails.title,
-						problemDetails.status
-				  )
-				: problemDetails;
+		if (problemDetails instanceof ProblemDetails) {
+			this.Details = problemDetails;
+		} else {
+			problemDetails = problemDetails; // hack typescript to avoid type guard
+			this.Details = new ProblemDetails(
+				problemDetails.type,
+				problemDetails.title,
+				problemDetails.status
+			);
+		}
 	}
 
 	// public static fromError(

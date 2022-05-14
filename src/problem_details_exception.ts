@@ -20,7 +20,9 @@ export class ProblemDetailsException extends Error {
 			this.Details = new ProblemDetails(
 				problemDetails.type,
 				problemDetails.title,
-				problemDetails.status
+				problemDetails.status,
+				problemDetails.detail,
+				problemDetails.instance
 			);
 		}
 	}

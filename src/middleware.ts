@@ -54,6 +54,7 @@ export function problemDetailsMiddleware(
 			let problem: ProblemDetails;
 			if (error instanceof ProblemDetailsException) {
 				problem = error.Details;
+				problem.detail ??= error.message;
 			} else {
 				problem = options.mapToProblemDetails(
 					{ request: req, response: res },

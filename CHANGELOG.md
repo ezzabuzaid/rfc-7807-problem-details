@@ -1,5 +1,12 @@
 
 
+### [0.2.3](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/0.2.2...0.2.3) (2022-05-13)
+
+
+### Bug Fixes
+
+* pass problem details as is when passed to ProblemDetailsException ([e83596d](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/e83596d538751b08507db09340c8ea37dd95449c))
+
 ### [0.2.2](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/0.2.1...0.2.2) (2022-05-12)
 
 

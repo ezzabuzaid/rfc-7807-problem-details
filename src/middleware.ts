@@ -4,10 +4,10 @@ import { getReasonPhrase } from "http-status-codes";
 import { ProblemDetails } from "./problem_details";
 import { ProblemDetailsException } from "./problem_details_exception";
 export function problemDetailsMiddleware(
-	configure: (options: ProblemDetailsOptions) => void
+	configure?: (options: ProblemDetailsOptions) => void
 ): ErrorRequestHandler {
 	const options = new ProblemDetailsOptions();
-	configure(options);
+	configure?.(options);
 
 	options.includeExceptionDetails ??= () =>
 		(process.env.NODE_ENV || "development") === "development";

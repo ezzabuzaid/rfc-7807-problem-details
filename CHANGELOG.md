@@ -1,5 +1,12 @@
 
 
+### [0.2.5](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/0.2.4...0.2.5) (2022-05-14)
+
+
+### Bug Fixes
+
+* set detail to equal Error instance message if not present ([3ef4419](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/3ef44198af53dcc147b87e2e7064fcb7aa8c4094))
+
 ### [0.2.4](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/0.2.3...0.2.4) (2022-05-14)
 
 

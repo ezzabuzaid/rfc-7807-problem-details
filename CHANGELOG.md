@@ -1,5 +1,12 @@
 
 
+### [0.2.4](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/0.2.3...0.2.4) (2022-05-14)
+
+
+### Bug Fixes
+
+* make configure parameter optional ([1d56139](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/1d56139727cb63cdf408314bd2affbb7805e8a3e))
+
 ### [0.2.3](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/0.2.2...0.2.3) (2022-05-13)
 
 

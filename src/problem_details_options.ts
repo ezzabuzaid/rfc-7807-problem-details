@@ -13,7 +13,6 @@ export class ProblemDetailsOptions {
 	][] = [];
 
 	public includeExceptionDetails!: () => boolean;
-	public isProblem!: (context: HttpContext) => boolean;
 	public appendCacheHeaders!: (
 		setter: (name: string, value: string) => void
 	) => void;

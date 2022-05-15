@@ -71,20 +71,8 @@ export function prepareProblemDetailsOptions(options: ProblemDetailsOptions) {
 
 	options.mapStatusCode ??= (context: HttpContext, statusCode: number) => {
 		const title = undefined; // will be set to status code text in the middleware
-		const problem = new ProblemDetails(
-			`${context.res.status}`,
-			title,
-			context.res.status
-		);
+		const problem = new ProblemDetails(`${statusCode}`, title, statusCode);
 		return problem;
-	};
-
-	options.isProblem ??= (context) => {
-		// Always return true and let the developer change it based on his requrirment
-		// in case the developer throws an error from any other middlware this should be fine
-		// in case the developer return kind of "error" object he can modify this function to intercept it as
-		// return an error response
-		return true;
 	};
 }
 

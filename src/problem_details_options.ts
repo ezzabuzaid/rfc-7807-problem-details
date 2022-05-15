@@ -1,5 +1,7 @@
-import type { Request, Response } from "express";
 import { ProblemDetails } from "./problem_details";
+import type { HttpContext } from "./context";
+import { ProblemDetailsException } from "./problem_details_exception";
+
 type Type<T> = new (...args: any) => T;
 export class ProblemDetailsOptions {
 	public static DefaultExceptionDetailsPropertyName =
@@ -7,13 +9,18 @@ export class ProblemDetailsOptions {
 
 	private mappings: [
 		Type<Error>,
-		(request: Request, response: Response, error: any) => ProblemDetails
+		(context: HttpContext, error: any) => ProblemDetails
 	][] = [];
 
 	public includeExceptionDetails!: () => boolean;
-	public isProblem!: (response: Response) => boolean;
-	public appendCacheHeaders!: (req: Request, res: Response) => void;
-	public mapStatusCode!: (req: Request, res: Response) => ProblemDetails;
+	public isProblem!: (context: HttpContext) => boolean;
+	public appendCacheHeaders!: (
+		setter: (name: string, value: string) => void
+	) => void;
+	public mapStatusCode!: (
+		context: HttpContext,
+		statusCode: number
+	) => ProblemDetails;
 
 	public map<TError extends Type<Error>>(
 		error: TError,
@@ -35,12 +42,13 @@ export class ProblemDetailsOptions {
 		const _predicate = mapping ? predicateOrMapping : () => true;
 		this.mappings.push([
 			error,
-			(request, response, errorInstance: InstanceType<TError>) => {
+			(context, errorInstance: InstanceType<TError>) => {
 				if (_predicate(errorInstance)) {
 					const details = _mapping(errorInstance);
 					return details;
 				}
-				return this.mapStatusCode(request, response);
+				const statusCode = coerceStatusCode(context.res);
+				return this.mapStatusCode(context, statusCode);
 			},
 		]);
 	}
@@ -49,23 +57,24 @@ export class ProblemDetailsOptions {
 		error: TError,
 		statusCode: number
 	) {
-		this.map(
-			error,
-			(errorInstance) => true,
-			(errorInstance) => {
+		this.map(error, (errorInstance) => {
+			if (error instanceof ProblemDetailsException) {
+				error.Details.status = statusCode;
+				return error.Details;
+			} else {
 				const title = undefined; // will be set to status code text in the middleware
 				return new ProblemDetails(
 					`${statusCode}`,
 					title,
 					statusCode,
-					errorInstance.message ?? undefined
+					errorInstance?.message ?? undefined
 				);
 			}
-		);
+		});
 	}
 
 	public mapToProblemDetails<TError extends Error>(
-		context: { request: Request; response: Response },
+		context: HttpContext,
 		error: TError
 	) {
 		const [, mapper] =
@@ -75,17 +84,17 @@ export class ProblemDetailsOptions {
 		// FIXME: should mapStatusCode exist at all? if there is no mapping for specific error then the default error
 		// handler should take control
 		return (
-			mapper?.(context.request, context.response, error) ??
+			mapper?.(context, error) ??
 			(() => {
 				// respect error.statusCode and error.status
 				// a lot of 3rd libarires set status or statusCode on the Error object
-				const statusCode = (error as any).statusCode || (error as any).status;
+				const statusCode = coerceStatusCode(error);
 				if (statusCode) {
-					context.response.statusCode = statusCode;
+					// return this.mapStatusCode(context, statusCode);
 				} else {
 					// FIXME: should it delegate to routing framework error handler? or just set the status code to 500
 				}
-				return this.mapStatusCode(context.request, context.response);
+				return this.mapStatusCode(context, statusCode);
 			})()
 		);
 	}
@@ -93,4 +102,8 @@ export class ProblemDetailsOptions {
 	public typePrefix?: string;
 	public contentTypes: string[] = [];
 	public exceptionDetailsPropertyName!: string;
+}
+
+function coerceStatusCode(error: object) {
+	return (error as any).statusCode || (error as any).status;
 }

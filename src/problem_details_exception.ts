@@ -26,12 +26,4 @@ export class ProblemDetailsException extends Error {
 			);
 		}
 	}
-
-	// public static fromError(
-	// 	error: ProblemDetails & { message?: string; statusCode: number }
-	// ) {
-	// 	error.title ||= error.message;
-	// 	error.status ||= error.statusCode;
-	// 	return new ProblemDetailsException(error);
-	// }
 }

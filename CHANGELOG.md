@@ -1,5 +1,12 @@
 
 
+### [1.0.1](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/1.0.0...1.0.1) (2022-05-15)
+
+
+### Bug Fixes
+
+* remove support for isPorblem option ([a48701f](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/a48701f4e983be7b3f923cb26b013107881ed87f))
+
 ## [1.0.0](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/0.2.5...1.0.0) (2022-05-15)
 
 

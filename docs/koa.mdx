@@ -1,0 +1,55 @@
+---
+title: Koa.js | Typescript implementation of problem details
+description: koa.js example of using rfc-7807-problem-details
+---
+
+Throw error/exception from any middleware to be caught.
+
+```typescript
+import Koa from "koa";
+import createError from "http-errors"; // https://www.npmjs.com/package/http-errors
+import {
+	problemDetailsMiddleware,
+	ProblemDetailsException,
+	ProblemDetails,
+} from "rfc-7807-problem-details";
+const app = new Koa();
+
+// Should come at the beginning of the middleware chain
+// https://github.com/koajs/koa/blob/master/docs/error-handling.md
+app.use(
+	problemDetailsMiddlewareOb.koa((options) => {
+		// createError function returns instance of HttpError hence we need to map it to problem details
+		options.map(createError.HttpError, (error) => {
+			return new ProblemDetails(
+				error.type,
+				error.message,
+				error.status,
+				error.detail
+			);
+		});
+	})
+);
+
+app.use(async (ctx, next) => {
+	switch (ctx.originalUrl) {
+		case "/example/throw":
+			throw new ProblemDetailsException({
+				type: "cannot-proceed",
+				status: 400,
+				title: "You cannot proceed.",
+			});
+		case "/example/custom/throw":
+			throw createError(400, "You cannot proceed.", {
+				type: "cannot-proceed",
+				detail: `some more details about the error - human friendly error`,
+			});
+		default:
+			ctx.body = "Hello World";
+			break;
+	}
+	await next();
+});
+
+const server = app.listen(3000);
+```

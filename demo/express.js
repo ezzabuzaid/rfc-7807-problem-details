@@ -59,7 +59,7 @@ app.get('/example/custom/throw', (req, res, next) => {
 
 // This is error handler hence, most be last
 app.use(
-	problemDetailsMiddleware((options) => {
+	problemDetailsMiddleware.express((options) => {
 		options.typePrefix = `https://example.com/probs/out-of-credit`;
 		// default typePrefix is https://httpstatuses.io - make sure to use status code as type if you do not have dedicated errors page
 

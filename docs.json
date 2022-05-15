@@ -5,6 +5,7 @@
 	"googleTagManager": "GTM-W4SVSKL",
 	"sidebar": [
 		["Overview", "/"],
-		["express.js", "/expressjs"]
+		["express.js", "/expressjs"],
+		["Koa.js", "/koa"]
 	]
 }

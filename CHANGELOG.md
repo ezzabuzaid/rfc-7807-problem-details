@@ -1,5 +1,17 @@
 
 
+## [1.0.0](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/0.2.5...1.0.0) (2022-05-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* decouble middleware from problem details handling
+
+### Bug Fixes
+
+* decouble middleware from problem details handling ([4e2ab91](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/4e2ab91827e5c59203cf550c1a55b2fc2a4b04f3))
+* use instance of to find the correct constructor of error object ([6708ba8](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/6708ba87abceeadd6e13ebe30ba7fc9fdbcf0a99))
+
 ### [0.2.5](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/0.2.4...0.2.5) (2022-05-14)
 
 

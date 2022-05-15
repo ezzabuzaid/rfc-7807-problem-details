@@ -12,13 +12,7 @@ import {
 	problemDetailsMiddleware,
 	ProblemDetailsException,
 } from "rfc-7807-problem-details";
-const express = require("express");
-const createError = require("http-errors");
-const {
-	ProblemDetails,
-	ProblemDetailsException,
-	problemDetailsMiddleware,
-} = require("../dist/index");
+
 const app = express();
 
 // Pass exception using next middleware

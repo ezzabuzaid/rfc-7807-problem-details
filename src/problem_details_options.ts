@@ -5,10 +5,10 @@ export class ProblemDetailsOptions {
 	public static DefaultExceptionDetailsPropertyName =
 		"exceptionDetails" as const;
 
-	private mappings = new Map<
+	private mappings: [
 		Type<Error>,
 		(request: Request, response: Response, error: any) => ProblemDetails
-	>();
+	][] = [];
 
 	public includeExceptionDetails!: () => boolean;
 	public isProblem!: (response: Response) => boolean;
@@ -17,19 +17,32 @@ export class ProblemDetailsOptions {
 
 	public map<TError extends Type<Error>>(
 		error: TError,
+		mapping: (error: InstanceType<TError>) => ProblemDetails
+	): void;
+	public map<TError extends Type<Error>>(
+		error: TError,
 		predicate: (error: InstanceType<TError>) => boolean,
 		mapping: (error: InstanceType<TError>) => ProblemDetails
-	) {
-		this.mappings.set(
+	): void;
+	public map<TError extends Type<Error>>(
+		error: TError,
+		predicateOrMapping:
+			| ((error: InstanceType<TError>) => boolean)
+			| ((error: InstanceType<TError>) => ProblemDetails),
+		mapping?: (error: InstanceType<TError>) => ProblemDetails
+	): void {
+		const _mapping: any = mapping ?? predicateOrMapping;
+		const _predicate = mapping ? predicateOrMapping : () => true;
+		this.mappings.push([
 			error,
 			(request, response, errorInstance: InstanceType<TError>) => {
-				if (predicate(errorInstance)) {
-					const details = mapping(errorInstance);
+				if (_predicate(errorInstance)) {
+					const details = _mapping(errorInstance);
 					return details;
 				}
 				return this.mapStatusCode(request, response);
-			}
-		);
+			},
+		]);
 	}
 
 	public mapToStatusCode<TError extends Type<Error>>(
@@ -55,14 +68,17 @@ export class ProblemDetailsOptions {
 		context: { request: Request; response: Response },
 		error: TError
 	) {
-		const mapping = this.mappings.get(error.constructor as Type<TError>);
+		const [, mapper] =
+			this.mappings.find(
+				([error]) => error instanceof (error.constructor as Type<TError>)
+			) ?? [];
 		// FIXME: should mapStatusCode exist at all? if there is no mapping for specific error then the default error
 		// handler should take control
 		return (
-			mapping?.(context.request, context.response, error) ??
+			mapper?.(context.request, context.response, error) ??
 			(() => {
 				// respect error.statusCode and error.status
-				// a lot of 3rd libarires set status or statusCode on error object
+				// a lot of 3rd libarires set status or statusCode on the Error object
 				const statusCode = (error as any).statusCode || (error as any).status;
 				if (statusCode) {
 					context.response.statusCode = statusCode;

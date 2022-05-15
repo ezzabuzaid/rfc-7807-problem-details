@@ -73,6 +73,7 @@ export function problemDetailsMiddleware(
 
 			// Set problem details title to status code text if title is not present
 			if (!problem.title && problem.status) {
+				// https://datatracker.ietf.org/doc/html/rfc7807#section-4.2
 				problem.title = getReasonPhrase(problem.status);
 			}
 

@@ -16,4 +16,3 @@ export class ProblemDetails {
 		public instance?: string
 	) {}
 }
-new ProblemDetails();

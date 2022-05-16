@@ -87,9 +87,7 @@ export const problemDetailsMiddleware = {
 			try {
 				await next();
 			} catch (error) {
-				options.appendCacheHeaders((name, value) =>
-					context.res.setHeader(name, value)
-				);
+				options.appendCacheHeaders((name, value) => context.set(name, value));
 
 				const problem = prepareProblemDetails(options, error, context);
 				context.set("content-type", options.contentTypes);

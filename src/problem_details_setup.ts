@@ -5,7 +5,10 @@ import { ProblemDetailsException } from "./problem_details_exception";
 import { ProblemDetailsOptions } from "./problem_details_options";
 
 export class ProblemDetailsSetup {
-	constructor(private _options: ProblemDetailsOptions) {}
+	constructor(private _options: ProblemDetailsOptions) {
+		this._prepareProblemDetailsOptions();
+	}
+
 	public prepareProblemDetails(
 		error: any,
 		context: HttpContext
@@ -50,7 +53,7 @@ export class ProblemDetailsSetup {
 		return problem;
 	}
 
-	public prepareProblemDetailsOptions() {
+	private _prepareProblemDetailsOptions() {
 		this._options.includeExceptionDetails ??= () =>
 			(process.env.NODE_ENV || "development") === "development";
 

@@ -7,7 +7,6 @@ export const problemDetailsMiddleware = {
 		configure?.(options);
 
 		const setup = new ProblemDetailsSetup(options);
-		setup.prepareProblemDetailsOptions();
 
 		return async (context: any, next: any) => {
 			try {
@@ -27,7 +26,6 @@ export const problemDetailsMiddleware = {
 		configure?.(options);
 
 		const setup = new ProblemDetailsSetup(options);
-		setup.prepareProblemDetailsOptions();
 
 		return (error: any, req: any, res: any, next: any) => {
 			if (res.headersSent) {

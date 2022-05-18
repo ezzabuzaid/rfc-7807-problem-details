@@ -1,5 +1,19 @@
 
 
+## [1.1.0](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/1.0.2...1.1.0) (2022-05-18)
+
+
+### Features
+
+* export ProblemDetailsSetup class to handle custom/other frameworks ([4cc8ff4](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/4cc8ff4f19f1aa9a97c7c4cba50e4166686ac133))
+* prepare problem details option internally to reduce custom setup ([85941a4](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/85941a436f220ab61087a098c4ff5a093e357c5d))
+
+
+### Bug Fixes
+
+* incoming errors were not correctly checked using instanceof ([4f230ed](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/4f230ed420519c05939bada8b110650170022de1))
+* use context.set as default header setter ([15f24cf](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/15f24cf489abc36890f7e6606bda1227f2e366ce))
+
 ### [1.0.2](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/1.0.1...1.0.2) (2022-05-15)
 
 ### [1.0.1](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/1.0.0...1.0.1) (2022-05-15)

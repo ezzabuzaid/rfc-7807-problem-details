@@ -33,5 +33,5 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true
 	},
-	"exclude": ["node_modules", "dist", "__test__"]
+	"exclude": ["node_modules", "dist", "__test__", "demo"]
 }

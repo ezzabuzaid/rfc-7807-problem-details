@@ -12,6 +12,8 @@ export class ProblemDetailsOptions {
 		(context: HttpContext, error: any) => ProblemDetails
 	][] = [];
 
+	private rethrows: [Type<Error>, ((error: any) => boolean)?][] = [];
+
 	public includeExceptionDetails!: () => boolean;
 	public appendCacheHeaders!: (
 		setter: (name: string, value: string) => void
@@ -77,9 +79,7 @@ export class ProblemDetailsOptions {
 		error: TError
 	) {
 		const [, mapper] =
-			this.mappings.find(
-				([error]) => error instanceof (error.constructor as Type<TError>)
-			) ?? [];
+			this.mappings.find(([errorCtor]) => error instanceof errorCtor) ?? [];
 		// FIXME: should mapStatusCode exist at all? if there is no mapping for specific error then the default error
 		// handler should take control
 		return (
@@ -97,7 +97,13 @@ export class ProblemDetailsOptions {
 			})()
 		);
 	}
-	public rethrow() {}
+	public rethrow<TError extends Type<Error>>(
+		error: TError,
+		predicate?: (error: InstanceType<TError>) => boolean
+	) {
+		this.rethrows.push([error, predicate]);
+	}
+
 	public typePrefix?: string;
 	public contentTypes: string[] = [];
 	public exceptionDetailsPropertyName!: string;

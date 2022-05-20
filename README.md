@@ -1,5 +1,14 @@
-Typescript implementation of [RFC 7870](https://datatracker.ietf.org/doc/html/rfc7807)
+Typescript implementation of [RFC 7807](https://datatracker.ietf.org/doc/html/rfc7807)
 inspired from [Hellang ProblemDetails](https://www.nuget.org/packages/Hellang.Middleware.ProblemDetails)
+
+
+## Install
+```bash
+npm i rfc-7807-problem-details
+# Using Yarn
+yarn add rfc-7807-problem-details
+```
+
 
 ## Problem details options
 

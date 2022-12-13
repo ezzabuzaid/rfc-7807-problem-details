@@ -11,13 +11,17 @@ export const problemDetailsMiddleware = {
 		return async (context: any, next: any) => {
 			try {
 				await next();
-			} catch (error) {
+			} catch (error: any) {
 				options.appendCacheHeaders((name, value) => context.set(name, value));
 
 				const problem = setup.prepareProblemDetails(error, context);
 				context.set("content-type", options.contentTypes);
 				context.status = problem.status;
 				context.body = problem;
+
+				if (options.shouldRethrowException(error)) {
+					throw error;
+				}
 			}
 		};
 	},
@@ -42,8 +46,12 @@ export const problemDetailsMiddleware = {
 					.setHeader("content-type", options.contentTypes)
 					.status(problem.status)
 					.json(problem);
+				next();
+
+				if (options.shouldRethrowException(error)) {
+					throw error;
+				}
 			}
-			next();
 		};
 	},
 };

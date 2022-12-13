@@ -1,5 +1,5 @@
-import { ProblemDetails } from "./problem_details";
 import type { HttpContext } from "./context";
+import { ProblemDetails } from "./problem_details";
 import { ProblemDetailsException } from "./problem_details_exception";
 
 type Type<T> = new (...args: any) => T;
@@ -12,7 +12,7 @@ export class ProblemDetailsOptions {
 		(context: HttpContext, error: any) => ProblemDetails
 	][] = [];
 
-	private rethrows: [Type<Error>, ((error: any) => boolean)?][] = [];
+	private rethrowPolicies: Array<(error: any) => boolean> = [];
 
 	public includeExceptionDetails!: () => boolean;
 	public appendCacheHeaders!: (
@@ -97,11 +97,29 @@ export class ProblemDetailsOptions {
 			})()
 		);
 	}
+
 	public rethrow<TError extends Type<Error>>(
-		error: TError,
+		errorType: TError,
 		predicate?: (error: InstanceType<TError>) => boolean
 	) {
-		this.rethrows.push([error, predicate]);
+		this.rethrowPolicies.push((error) => {
+			if (error instanceof errorType) {
+				if (!predicate) {
+					return true;
+				}
+				return predicate(error as any);
+			}
+			return false;
+		});
+	}
+
+	public shouldRethrowException(error: Error) {
+		for (const policy of this.rethrowPolicies) {
+			if (policy(error)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public typePrefix?: string;

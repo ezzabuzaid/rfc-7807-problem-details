@@ -1,6 +1,6 @@
 {
 	"name": "rfc-7807-problem-details",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"description": "Typescript implementation of rfc 7807",
 	"main": "index",
 	"scripts": {

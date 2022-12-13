@@ -1,5 +1,12 @@
 
 
+## [1.2.0](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/1.1.0...1.2.0) (2022-12-13)
+
+
+### Features
+
+* add rethrow functionality ([b3bb0fd](https://github.com/ezzabuzaid/rfc-7807-problem-details/commit/b3bb0fd64b8717f512d4cfcd342271f3e15cce64))
+
 ## [1.1.0](https://github.com/ezzabuzaid/rfc-7807-problem-details/compare/1.0.2...1.1.0) (2022-05-18)
 
 
